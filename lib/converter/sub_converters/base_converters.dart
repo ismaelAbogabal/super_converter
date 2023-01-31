@@ -1,6 +1,6 @@
 import '../converter.dart';
 
-/// active value 1,'1', true, 'true'
+/// Convert into boolean
 class BoolConverter extends SuperConverter<bool> {
   @override
   bool? handle(value, {bool? defaultValue}) {
@@ -8,6 +8,7 @@ class BoolConverter extends SuperConverter<bool> {
   }
 }
 
+/// Convert into int
 class IntConverter extends SuperConverter<int> {
   @override
   int? handle(value, {int? defaultValue}) {
@@ -15,6 +16,7 @@ class IntConverter extends SuperConverter<int> {
   }
 }
 
+/// Convert into double
 class DoubleConverter extends SuperConverter<double> {
   @override
   double? handle(value, {double? defaultValue}) {
@@ -22,6 +24,7 @@ class DoubleConverter extends SuperConverter<double> {
   }
 }
 
+/// Convert into string
 class StringConverter extends SuperConverter<String> {
   @override
   String? handle(value, {String? defaultValue}) {
@@ -31,6 +34,7 @@ class StringConverter extends SuperConverter<String> {
   }
 }
 
+/// Convert into datetime
 class DateTimeConverter extends SuperConverter<DateTime> {
   @override
   DateTime? handle(value, {DateTime? defaultValue}) {
@@ -43,7 +47,9 @@ class DateTimeConverter extends SuperConverter<DateTime> {
     for (var f in SuperConverter.dateFormats) {
       try {
         return f.parse(value);
-      } catch (e) {}
+      } catch (e) {
+        //not available
+      }
     }
 
     try {
@@ -54,6 +60,7 @@ class DateTimeConverter extends SuperConverter<DateTime> {
   }
 }
 
+/// custom convirter
 class ConverterBuilder<T> extends SuperConverter<T> {
   ConverterBuilder(this.handler);
 

@@ -48,29 +48,24 @@ SuperConverter.registerConverters([
 3. Convert
 
 ```dart
-
-UserDto user = apiResponse.convert();
-UserDto? userNullable = apiResponse.convert();
-final userExplicitly = apiResponse.convert<UserDto?>(); 
+UserDto user = apiResponse.convert(); // UserDto()
+UserDto? userNullable = apiResponse.convert(); // UserDto()
+final userExplicitly = apiResponse.convert<UserDto?>(); // UserDto()
 ```
 
 ## Usage
-
 1. Simple types conversion
 
 ### Integers
 
 ```dart
-
 int intValue = '5'.convert(); // 5
 int intValue2 = 5.convert(); // 5
 int intValue3 = '  5  '.convert(); // 5
 ```
 
 ### Dates
-
 Supported date formats by default
-
 - 'MM/dd/yyyy HH:mm',
 - 'MM/dd/yyyy hh:mm a',
 - 'MM/dd/yyyy',
@@ -79,14 +74,13 @@ Supported date formats by default
 - 'yyyy-MM-dd',
 
 ```dart
-  // Register dates formats if needed
-
-SuperConverter.registerDateFormats //([]);
+// Register dates formats if needed
+SuperConverter.registerDateFormats([]);
 
 // convert it
-DateTime date = '2020-11-24'.convert();
+DateTime date = '2020-11-24'.convert(); // DateTime()
 
-DateTime date2 = DateTime.now().toUtc().convert();
+DateTime date2 = DateTime.now().toUtc().convert(); // DateTime()
 ```
 
 ### Enums
@@ -106,11 +100,10 @@ SuperConverter.registerConverters([EnumConverter<Gender>(Gender.values)]);
 Usage
 
 ```dart
-
-Gender gender = 'male'.convert();
-Gender gender2 = 'female'.convert();
-Gender gender3 = 'OTHERWISE'.convert();
-Gender? genderInvalid = 'c'.convert();
+Gender gender = 'male'.convert(); // Gender.male;
+Gender gender2 = 'female'.convert(); // Gender.female;
+Gender gender3 = 'OTHERWISE'.convert(); // Gender.otherwise;
+Gender? genderInvalid = 'c'.convert(); // null;
 ```
 
 ### Classes convert
@@ -121,14 +114,13 @@ SuperConverter.registerConverters([FromMapConverter<UserDto>(UserDto.fromMap)]);
 #### Usage
 ```dart
  String apiResponse = '{"id":1,"profile":{"name":"ismael","gender":"male"},"email":"ismael@gmail.com"}';
-  UserDto user = apiResponse.convert();
+  UserDto user = apiResponse.convert(); // UserDto()
 ```
 
 ### Map Utils
 extract data from map value and convert it 
 
 ```dart
-
 class UserDto {
   final int id;
   final String name;

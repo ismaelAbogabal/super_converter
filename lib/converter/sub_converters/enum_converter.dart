@@ -1,6 +1,7 @@
 import 'package:super_converter/converter/convert_exceptions.dart';
 import 'package:super_converter/converter/converter.dart';
 
+/// used to handle the enum conversion
 class EnumConverter<T> extends SuperConverter<T> {
   EnumConverter(
     this.values, {
@@ -30,7 +31,7 @@ class EnumConverter<T> extends SuperConverter<T> {
       throw ConversionError(type: T, data: value);
 
       // return item;
-    } catch (e, s) {
+    } catch (e) {
       if (defaultValue != null) return defaultValue;
 
       rethrow;

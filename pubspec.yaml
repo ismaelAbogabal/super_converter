@@ -1,7 +1,7 @@
 name: super_converter
-description: A new Flutter project.
-version: 0.0.1
-homepage:
+description: Simple convert anything to anything. As long as it has the required data to be converter it should be done automatically
+version: 0.0.2
+homepage: https://github.com/ismaelAbogabal/super_converter
 
 environment:
   sdk: '>=2.18.4 <3.0.0'

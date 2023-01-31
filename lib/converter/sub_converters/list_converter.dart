@@ -24,7 +24,7 @@ class ListConverter<T> extends SuperConverter<List<T>> {
     for (var e in value) {
       try {
         response.add(SuperConverter.convert<T>(e));
-      } catch (e, stack) {
+      } catch (e) {
         if (skipInvalid) {
           // print(
           //   '[CustomConverter][ListConverter<$T>] '
