@@ -39,7 +39,8 @@ void main(List<String> arguments) {
   Gender? genderInvalid = 'c'.convert();
   Gender? genderWithNoConverter = Gender.male.convert();
 
-  SuperConverter.registerConverters([FromMapConverter<UserDto>(UserDto.fromMap)]);
+  SuperConverter.registerConverters(
+      [FromMapConverter<UserDto>(UserDto.fromMap)]);
   String apiResponse =
       '{"id":1,"profile":{"name":"ismael","gender":"male"},"email":"ismael@gmail.com"}';
   UserDto user = apiResponse.convert();

@@ -7,7 +7,7 @@ class UnKnownConverter implements Exception {
 
   @override
   String toString() {
-    return 'UnKnownConverter of $type';
+    return 'UnKnownConverter of $type try to register it with SuperConverter.registerConverters';
   }
 }
 
@@ -21,4 +21,12 @@ class ConversionError implements Exception {
   String toString() {
     return 'ConversionError[$type] cant handle $data';
   }
+}
+
+class ListConversionError extends ConversionError {
+  const ListConversionError({required super.type, required super.data});
+
+  @override
+  String toString() =>
+      'For List conversion use convertToList<X> instead of convert<List<X>>';
 }

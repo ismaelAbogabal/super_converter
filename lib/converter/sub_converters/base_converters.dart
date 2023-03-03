@@ -17,10 +17,10 @@ class IntConverter extends SuperConverter<int> {
 }
 
 /// Convert into double
-class DoubleConverter extends SuperConverter<double> {
+class DoubleConverter extends SuperConverter<num> {
   @override
-  double? handle(value, {double? defaultValue}) {
-    return double.tryParse(value?.toString() ?? '');
+  num? handle(value, {num? defaultValue}) {
+    return num.tryParse(value?.toString() ?? '')?.toDouble();
   }
 }
 
@@ -40,8 +40,10 @@ class DateTimeConverter extends SuperConverter<DateTime> {
   DateTime? handle(value, {DateTime? defaultValue}) {
     if (value is! String) value = value.toString();
 
-    if (int.tryParse(value) != null) {
-      return DateTime.fromMillisecondsSinceEpoch(int.parse(value) * 1000);
+    final intValue = IntConverter().handle(value);
+
+    if (intValue != null) {
+      return DateTime.fromMillisecondsSinceEpoch(intValue * 1000);
     }
 
     for (var f in SuperConverter.dateFormats) {
@@ -60,7 +62,6 @@ class DateTimeConverter extends SuperConverter<DateTime> {
   }
 }
 
-/// custom convirter
 class ConverterBuilder<T> extends SuperConverter<T> {
   ConverterBuilder(this.handler);
 

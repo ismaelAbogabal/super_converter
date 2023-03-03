@@ -9,6 +9,8 @@ import 'sub_converters/list_converter.dart';
 
 typedef NullAble<T> = T?;
 
+class _TypeHelper<T> {}
+
 abstract class SuperConverter<T> {
   static final List<SuperConverter> _converters = [
     BoolConverter(),
@@ -16,17 +18,16 @@ abstract class SuperConverter<T> {
     IntConverter(),
     DoubleConverter(),
     DateTimeConverter(),
-    // ListConverter(),
-    ConverterBuilder<dynamic>((value, {defaultValue}) => value ?? defaultValue),
+    ListConverter(),
   ];
 
   static final List<DateFormat> dateFormats = [
-    DateFormat('MM/dd/yyyy HH:mm'),
-    DateFormat('MM/dd/yyyy hh:mm a'),
-    DateFormat('MM/dd/yyyy'),
     DateFormat('yyyy-MM-dd hh:mm a'),
     DateFormat('yyyy-MM-dd HH:mm'),
     DateFormat('yyyy-MM-dd'),
+    DateFormat('yyyy/MM/dd hh:mm a'),
+    DateFormat('yyyy/MM/dd HH:mm'),
+    DateFormat('yyyy/MM/dd'),
   ];
 
   /// date formats used to convert string into dates
@@ -41,10 +42,12 @@ abstract class SuperConverter<T> {
 
   /// convert in case of single item
   static T convert<T>(dynamic value, {T? defaultValue}) {
-    for (var converter in _converters) {
-      if (converter.canHandle(T)) {
-        // if (value is T) return value;
+    if (value is T) return value;
 
+    if (isSubType<List, T>()) throw ListConversionError(type: T, data: value);
+
+    for (var converter in _converters) {
+      if (converter.canHandle<T>()) {
         try {
           return converter.handle(value, defaultValue: defaultValue) ??
               defaultValue;
@@ -56,12 +59,14 @@ abstract class SuperConverter<T> {
       }
     }
 
+    /// try to register your class by using [registerConverters] method
+    /// For Enums you can use [EnumConverter]
+    /// For Classes you can use [FromMapConverter]
     throw UnKnownConverter(T);
   }
 
   static List<O> convertToList<O>(
     dynamic value, {
-
     /// return default value in case of there are no item
     List<O>? defaultValue,
 
@@ -77,15 +82,13 @@ abstract class SuperConverter<T> {
 
   T? handle(dynamic value, {T? defaultValue});
 
-  bool canHandle(Type t) {
-    return t is T ||
-        [
-          T,
-          NullAble<T>,
-          FutureOr<T>,
-          FutureOr<NullAble<T>>,
-        ].contains(t);
-  }
+  bool canHandle<Child>() => isSubType<T, Child>();
+
+  static bool isSubType<Super, Child>() =>
+      _TypeHelper<Child>() is _TypeHelper<Super?> ||
+      _TypeHelper<Child>() is _TypeHelper<Super> ||
+      _TypeHelper<Child>() is _TypeHelper<FutureOr<Super>> ||
+      _TypeHelper<Child>() is _TypeHelper<FutureOr<Super?>>;
 }
 
 extension ConverterExtension on dynamic {
