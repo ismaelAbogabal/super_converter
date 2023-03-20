@@ -1,6 +1,6 @@
-import 'package:super_converter/converter/converter.dart';
-import 'package:super_converter/converter/sub_converters/enum_converter.dart';
-import 'package:super_converter/converter/sub_converters/from_map_converter.dart';
+import 'dart:core';
+
+import 'package:super_converter/super_converter.dart';
 
 void main(List<String> arguments) {
   int intValue = '5'.convert(); // 6
@@ -32,20 +32,19 @@ void main(List<String> arguments) {
   /// enum conversions
   // enum Gender { male, female, otherwise }
 
-  SuperConverter.registerConverters([EnumConverter<Gender>(Gender.values)]);
   Gender gender = 'male'.convert();
   Gender gender2 = 'female'.convert();
   Gender gender3 = 'OTHERWISE'.convert();
   Gender? genderInvalid = 'c'.convert();
   Gender? genderWithNoConverter = Gender.male.convert();
 
-  SuperConverter.registerConverters(
-      [FromMapConverter<UserDto>(UserDto.fromMap)]);
   String apiResponse =
       '{"id":1,"profile":{"name":"ismael","gender":"male"},"email":"ismael@gmail.com"}';
   UserDto user = apiResponse.convert();
 
   print(apiResponse);
+
+  List<int> list = ['1', '2', '3'].convert();
 }
 
 enum Gender { male, female, otherwise }

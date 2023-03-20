@@ -1,5 +1,4 @@
-class InvalidFormatException implements Exception {}
-
+/// This exception is thrown when the converter is not found
 class UnKnownConverter implements Exception {
   UnKnownConverter([this.type]);
 
@@ -11,8 +10,12 @@ class UnKnownConverter implements Exception {
   }
 }
 
+/// This exception is thrown when the converter failed to convert the data
 class ConversionError implements Exception {
-  const ConversionError({required this.type, required this.data});
+  const ConversionError({
+    required this.type,
+    required this.data,
+  });
 
   final dynamic data;
   final Type? type;
@@ -23,6 +26,7 @@ class ConversionError implements Exception {
   }
 }
 
+/// This exception is thrown when user try to convert list using convert instead of convertToList
 class ListConversionError extends ConversionError {
   const ListConversionError({required super.type, required super.data});
 

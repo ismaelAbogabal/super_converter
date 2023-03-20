@@ -33,7 +33,9 @@ as long as it has the required data to be converter it should be done automatica
 flutter pub add super_converter
 ```
 
-2. Register you owen classes
+2. Register you owen classes (no need for this step since the version 1.0.0)
+2.1 Enums are auto detected
+2.2 Classes are auto detected if they have a factory/constructor called fromMap
 
 ```dart
 SuperConverter.registerConverters([
