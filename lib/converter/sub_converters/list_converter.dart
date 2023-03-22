@@ -1,11 +1,8 @@
 import 'dart:convert';
 
-import 'package:super_converter/bin/converter.dart';
+import '../converter.dart';
 
-/// Convert into list
-/// If the value is not a list, it will be converted into a list with one item
-/// If the value is a string, it will be converted into a list by jsonDecode
-class ListConverter<T> {
+class ListConverter<T> extends SuperConverter<List<T>> {
   @override
   List<T> handle(
     value, {

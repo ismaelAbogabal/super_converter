@@ -1,4 +1,5 @@
-import 'package:super_converter/super_converter.dart';
+import 'package:super_converter/converter/convert_exceptions.dart';
+import 'package:super_converter/converter/converter.dart';
 import 'package:test/test.dart';
 
 class Test {
@@ -15,8 +16,8 @@ class Test {
 }
 
 void main() {
-  group('Conversion test.dart', () {
-    test('String test.dart', () {
+  group('Conversion test', () {
+    test('String test', () {
       expect('1'.convert<String>(), '1');
       expect(1.convert<String>(), '1');
       expect(true.convert<String>(), 'true');
@@ -66,16 +67,14 @@ void main() {
       expect('1'.convertToList<int>(), [1]);
       expect('0.2'.convertToList<num>(), [.2]);
 
-      expect(
-        () => ['1'].convert<List<int>>(),
-        throwsA(isA<ListConversionError>()),
-      );
+      expect(() => ['1'].convert<List<int>>(),
+          throwsA(isA<ListConversionError>()));
 
       expect(['1'].convertToList<int>(), isA<List<int>>());
     });
 
     test('Unknowen converter', () {
-      expect(() => '1'.convert<Test>(), throwsA(isA<ConversionError>()));
+      expect(() => '1'.convert<Test>(), throwsA(isA<UnKnownConverter>()));
     });
   });
 }
