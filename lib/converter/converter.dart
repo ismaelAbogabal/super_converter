@@ -54,6 +54,8 @@ abstract class SuperConverter<T> {
         } catch (e) {
           if (defaultValue is T) return defaultValue;
 
+          if (e is SuperConvertorException) rethrow;
+
           throw ConversionError(type: converter.runtimeType, data: value);
         }
       }

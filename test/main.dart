@@ -1,5 +1,6 @@
 import 'package:super_converter/converter/convert_exceptions.dart';
 import 'package:super_converter/converter/converter.dart';
+import 'package:super_converter/converter/sub_converters/from_map_converter.dart';
 import 'package:test/test.dart';
 
 class Test {
@@ -15,8 +16,20 @@ class Test {
         c = map.from('c');
 }
 
+class Test2 {
+  final Test t;
+
+  Test2({required this.t});
+
+  Test2.fromMap(Map<String, dynamic> map) : t = map.from('t');
+}
+
 void main() {
   group('Conversion test', () {
+    SuperConverter.registerConverters([
+      FromMapConverter<Test>(Test.fromMap),
+      FromMapConverter<Test2>(Test2.fromMap),
+    ]);
     test('String test', () {
       expect('1'.convert<String>(), '1');
       expect(1.convert<String>(), '1');
@@ -73,8 +86,22 @@ void main() {
       expect(['1'].convertToList<int>(), isA<List<int>>());
     });
 
-    test('Unknowen converter', () {
+    test('Unknown converter', () {
       expect(() => '1'.convert<Test>(), throwsA(isA<UnKnownConverter>()));
+    });
+
+    test('Custom conversion ', () {
+      final Test test =
+          '{"a": 1,"b" : "String value", "c" : true}'.convert<Test>();
+
+      expect(test, isA<Test>());
+    });
+
+    test('Sub converter error ', () {
+      /// throw unknown converter error Test isnot registered
+      final test = () => '{}'.convert<Test2>();
+
+      expect(test, throwsA(isA<UnKnownConverter>()));
     });
   });
 }

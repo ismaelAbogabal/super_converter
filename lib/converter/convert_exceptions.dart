@@ -1,6 +1,9 @@
-class InvalidFormatException implements Exception {}
+/// helper class to wrap all exceptions thrown by [SuperConverter]
+class SuperConvertorException {}
 
-class UnKnownConverter implements Exception {
+class InvalidFormatException implements SuperConvertorException {}
+
+class UnKnownConverter implements SuperConvertorException {
   UnKnownConverter([this.type]);
 
   final Type? type;
@@ -11,7 +14,7 @@ class UnKnownConverter implements Exception {
   }
 }
 
-class ConversionError implements Exception {
+class ConversionError implements SuperConvertorException {
   const ConversionError({required this.type, required this.data});
 
   final dynamic data;
